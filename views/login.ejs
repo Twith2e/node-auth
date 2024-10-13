@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <style>
+      * {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      h2 {
+        color: #fff;
+        margin-bottom: 20px;
+      }
+
+      div {
+        background-color: cadetblue;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        width: fit-content;
+        margin: 200px auto;
+      }
+
+      form {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+    <div>
+      <% if (errorMessage) { %>
+      <p class="error"><%= errorMessage %></p>
+      <% } %>
+      <h2>Welcome to the Signup Page</h2>
+      <form action="/log" method="post">
+        <input type="text" name="username" placeholder="username" />
+        <input type="password" name="password" placeholder="password" />
+        <input type="submit" value="login" />
+      </form>
+    </div>
+  </body>
+</html>
