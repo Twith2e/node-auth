@@ -50,10 +50,15 @@
       <% if (errorMessage) { %>
       <p class="error"><%= errorMessage %></p>
       <% } %>
-      <h2>Welcome to the Signup Page</h2>
+      <h2>Welcome to the Login Page</h2>
       <form action="/log" method="post">
-        <input type="text" name="username" placeholder="username" />
-        <input type="password" name="password" placeholder="password" />
+        <input required type="text" name="username" placeholder="username" />
+        <input
+          required
+          type="password"
+          name="password"
+          placeholder="password"
+        />
         <input type="submit" value="login" />
       </form>
     </div>

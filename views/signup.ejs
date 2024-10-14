@@ -49,13 +49,21 @@
     <div>
       <h2>Welcome to the Signup Page</h2>
       <form action="/register" method="post">
-        <input type="text" name="username" placeholder="username" />
-        <input type="password" name="password" placeholder="password" />
+        <input required type="text" name="username" placeholder="username" />
+        <input
+          required
+          type="password"
+          name="password"
+          placeholder="password"
+        />
         <input
           type="password"
-          name="confirm-password"
+          name="confirmpassword"
           placeholder="confirm password"
         />
+        <% if (errorMessage) { %>
+        <p style="color: red; width: 200px"><%= errorMessage %></p>
+        <% } %>
         <p>or</p>
         <p><a href="/login">Login</a></p>
         <input type="submit" value="signup" />
