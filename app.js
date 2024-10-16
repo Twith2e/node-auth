@@ -3,12 +3,14 @@ const app = express(); // CREATE EXPRESS APP
 const ejs = require("ejs"); // IMPORT BODY-PARSER
 const fs = require("fs");
 const path = require("path");
+const { log } = require("util");
 
 // MIDDLEWARES
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
 let userName;
+const todoDb = [];
 const usersFilePath = path.join(__dirname, "db.json");
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -48,7 +50,7 @@ app.post("/log", (req, res) => {
     )
   ) {
     userName = username;
-    res.redirect("/home");
+    res.redirect("/todo");
   } else {
     res.render("login", { errorMessage: "Invalid username or password" });
   }
@@ -80,4 +82,44 @@ app.post("/register", (req, res) => {
     writeUsersToFile(users);
     res.redirect("/login");
   }
+});
+
+app.get("/todo", (req, res) => {
+  res.render("todo", { todoDb });
+});
+
+app.post("/todo", (req, res) => {
+  const todoBody = {
+    content: req.body.content,
+    title: req.body.title,
+  };
+  todoDb.push(todoBody);
+  console.log(todoDb);
+  res.render("todo", { todoDb });
+});
+
+app.post("/todo/delete/:index", (req, res) => {
+  const { index } = req.params;
+  console.log(index);
+  todoDb.pop(index);
+  console.log(todoDb);
+  res.redirect("/todo");
+});
+
+app.post("/todo/edit/:index", (req, res) => {
+  const { index } = req.params;
+  const todo = todoDb[index];
+  res.render("edit", { todo, index });
+});
+
+app.post("/edit", (req, res) => {
+  res.render("edit", { todo: null, index: null });
+});
+
+app.post("/todo/update/:index", (req, res) => {
+  const { index } = req.params;
+  const todo = todoDb[index];
+  todo.content = req.body.content;
+  todo.title = req.body.title;
+  res.render("todo", { todoDb });
 });

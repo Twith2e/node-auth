@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo</title>
+  </head>
+
+  <style>
+    table {
+      border-collapse: collapse;
+      margin-top: 40px;
+      width: fit-content;
+    }
+    table,
+    th,
+    td,
+    tr {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+
+  <body>
+    <form action="/todo" method="post">
+      <input name="title" type="text" />
+      <input name="content" type="text" />
+      <button type="submit">AddTodo</button>
+    </form>
+    <% if (todoDb.length>0) { %>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+      </tr>
+      <% todoDb.forEach((element, index) => { %>
+      <tr>
+        <td><%= element.title %></td>
+        <td><%= element.content %></td>
+        <td>
+          <form action="/todo/delete/<%= index %>" method="post">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+        <td>
+          <form action="/todo/edit/<%= index %>" method="post">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </table>
+    <% } %>
+  </body>
+</html>
