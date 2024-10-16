@@ -32,10 +32,6 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-app.get("/home", (req, res) => {
-  res.render("index", { name: userName }); // Handle GET request for /signup
-});
-
 app.get("/", (req, res) => {
   res.render("signup", { errorMessage: null }); // Handle GET request for /
 });
