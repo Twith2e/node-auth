@@ -1,15 +1,16 @@
 const express = require("express"); // IMPORT EXPRESS
 const app = express(); // CREATE EXPRESS APP
 const ejs = require("ejs"); // IMPORT BODY-PARSER
+const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
 const { log } = require("util");
+require("dotenv").config();
 
 // MIDDLEWARES
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
-let userName;
 const todoDb = [];
 const usersFilePath = path.join(__dirname, "db.json");
 const passwordRegex =
@@ -25,12 +26,6 @@ function readUsersFromFile() {
 function writeUsersToFile(users) {
   fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
 }
-
-const port = 5005; // PORT NUMBER
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
 
 app.get("/", (req, res) => {
   res.render("signup", { errorMessage: null }); // Handle GET request for /
@@ -117,5 +112,27 @@ app.post("/todo/update/:index", (req, res) => {
   const todo = todoDb[index];
   todo.content = req.body.content;
   todo.title = req.body.title;
-  res.render("todo", { todoDb });
+  res.redirect("/todo");
+});
+
+const uri = process.env.MONGOOSE_URI;
+console.log(uri);
+
+const connection = async () => {
+  try {
+    const dbConnect = await mongoose.connect(uri);
+    if (dbConnect) {
+      console.log("Data connection is successful");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+connection();
+
+const port = 5005; // PORT NUMBER
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

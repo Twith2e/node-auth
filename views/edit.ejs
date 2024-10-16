@@ -9,8 +9,13 @@
     <!-- <% if (todo) { %> <% } %> -->
 
     <form action="/todo/update/<%= index %>" method="post">
-      <input type="text" name="title" value="<%= todo.title %>" id="" />
-      <input type="text" name="content" value="<%= todo.content %>" id="" />
+      <input type="text" name="title" value="<%= todo && todo.title %>" id="" />
+      <input
+        type="text"
+        name="content"
+        value="<%= todo && todo.content %>"
+        id=""
+      />
       <button type="submit">Update</button>
     </form>
   </body>
