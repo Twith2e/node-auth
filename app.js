@@ -11,39 +11,37 @@ require("dotenv").config();
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
+const userSchema = mongoose.Schema({
+  username: { type: String, trim: true, required: true, unique: true },
+  password: { type: String, required: true },
+});
+
+const userModel = mongoose.model("users", userSchema);
+
 const todoDb = [];
 const usersFilePath = path.join(__dirname, "db.json");
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-// Function to read users from the file
-function readUsersFromFile() {
-  const data = fs.readFileSync(usersFilePath);
-  return JSON.parse(data);
-}
-
-// Function to write users to the file
-function writeUsersToFile(users) {
-  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
-}
-
 app.get("/", (req, res) => {
   res.render("signup", { errorMessage: null }); // Handle GET request for /
 });
 
-app.post("/log", (req, res) => {
-  let users = readUsersFromFile();
+app.post("/log", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  if (
-    users.find(
-      (user) => user.username === username && user.password === password
-    )
-  ) {
-    userName = username;
-    res.redirect("/todo");
-  } else {
-    res.render("login", { errorMessage: "Invalid username or password" });
+  try {
+    const userObject = await userModel.findOne({ username: username });
+    if (!userObject) {
+      console.log("Username does not exst");
+    } else if (userObject.password !== password) {
+      console.log("Incorrect Password");
+    } else {
+      res.redirect("/todo");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.redirect("/login");
   }
 });
 
@@ -51,8 +49,7 @@ app.get("/login", (req, res) => {
   res.render("login", { errorMessage: null }); // Handle GET request for /login
 });
 
-app.post("/register", (req, res) => {
-  let users = readUsersFromFile();
+app.post("/register", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const confirmPassword = req.body.confirmpassword;
@@ -66,12 +63,13 @@ app.post("/register", (req, res) => {
         "Password must contain 1 uppercase letter, 1 lowercase letter, 1 digit, 1 of these special characters(@$!%*?&) and must be at least 8 characters long",
     });
   } else {
-    if (users.find((user) => user.username === username)) {
-      return res.render("signup", { errorMessage: "Username already exists" });
+    try {
+      const user = await userModel.create(req.body);
+      console.log(user);
+      res.redirect("/login");
+    } catch (error) {
+      console.log(error.message);
     }
-    users.push({ username, password });
-    writeUsersToFile(users);
-    res.redirect("/login");
   }
 });
 
