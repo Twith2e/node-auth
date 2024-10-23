@@ -3,71 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
     <title>signup</title>
   </head>
   <body>
-    <style>
-      * {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-          sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      h2 {
-        color: #fff;
-        margin-bottom: 20px;
-      }
-
-      div {
-        background-color: cadetblue;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px;
-        width: fit-content;
-        margin: 200px auto;
-      }
-
-      form {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      input[type="text"],
-      input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-    </style>
-    <div>
-      <h2>Welcome to the Signup Page</h2>
-      <form action="/register" method="post">
-        <input required type="text" name="username" placeholder="username" />
-        <input
-          required
-          type="password"
-          name="password"
-          placeholder="password"
-        />
-        <input
-          type="password"
-          name="confirmpassword"
-          placeholder="confirm password"
-        />
-        <% if (errorMessage) { %>
-        <p style="color: red; width: 200px"><%= errorMessage %></p>
-        <% } %>
-        <p>or</p>
-        <p><a href="/login">Login</a></p>
-        <input type="submit" value="signup" />
-      </form>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <h2 class="text-center">Sign Up</h2>
+          <form action="/register" method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                name="username"
+                id="username"
+                placeholder="Enter username"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="repeatPassword" class="form-label"
+                >Repeat Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="repeatPassword"
+                name="repeatPassword"
+                placeholder="Repeat password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+          </form>
+          <div class="text-center mt-3">
+            <p>Already have an account? <a href="/login">Login</a></p>
+          </div>
+        </div>
+      </div>
     </div>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
