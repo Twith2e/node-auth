@@ -22,34 +22,6 @@ app.use("/", userRoute);
 app.use("/", todoRoute);
 
 dbconnection(process.env.MONGOOSE_URI);
-//   console.log(req.body);
-
-//   const { username, password } = req.body;
-//   const confirmPassword = req.body.repeatPassword;
-
-//   // Check if the username already exists
-//   if (password !== confirmPassword) {
-//     res.render("signup", { errorMessage: "Passwords do not match" });
-//   } else if (!passwordRegex.test(password)) {
-//     res.render("signup", {
-//       errorMessage:
-//         "Password must contain 1 uppercase letter, 1 lowercase letter, 1 digit, 1 of these special characters(@$!%*?&) and must be at least 8 characters long",
-//     });
-//   } else {
-//     try {
-//       const userObject = await userModel.findOne({ username: username });
-//       if (userObject) {
-//         res.redirect("/");
-//       } else {
-//         const user = await userModel.create(req.body);
-//         console.log(user);
-//         res.redirect("/login");
-//       }
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   }
-// });
 
 const port = 4004; // PORT NUMBER
 app.listen(port, () => {
